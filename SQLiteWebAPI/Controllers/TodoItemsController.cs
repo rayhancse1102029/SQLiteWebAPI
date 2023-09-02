@@ -8,24 +8,24 @@ namespace SQLiteWebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class TodoItemsController : ControllerBase
     {
         private readonly AppDbContext _context;
 
-        public UserController(AppDbContext context)
+        public TodoItemsController(AppDbContext context)
         {
             _context = context;
         }
 
         [HttpPost]
-        [Route("CreateUser")]
-        public async Task<IActionResult> CreateUser(User item)
+        [Route("CreateTodoItem")]
+        public async Task<IActionResult> CreateTodoItem(TodoItem item)
         {
             try
             {
-                if (item is not null)
+                if(item is not null)
                 {
-                    await _context.Users.AddAsync(item);
+                    await _context.TodoItems.AddAsync(item);
                     await _context.SaveChangesAsync();
 
                     return Ok(item);
@@ -42,10 +42,10 @@ namespace SQLiteWebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("GetAllUsers")]
-        public async Task<IActionResult> GetAllUsers()
+        [Route("GetAllTodoItems")]
+        public async Task<IActionResult> GetAllTodoItems()
         {
-            return Ok(await _context.Users.ToListAsync());
+            return Ok(await _context.TodoItems.ToListAsync());
         }
     }
 }
